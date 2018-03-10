@@ -1,11 +1,20 @@
-var path = require('path');
-var express = require('express');
-var webpack = require('webpack');
-var config = require('../webpack.config.js');
+const path = require('path');
+const express = require('express');
+const webpack = require('webpack');
+const config = require('../webpack.config.js');
 const baseDir = __dirname;
+const mongoose = require('mongoose');
 
-var app = express();
-var compiler = webpack(config);
+const app = express();
+mongoose.connect('mongodb://localhost/react-express-template', (err) => {
+  if (!err) {
+    console.log('MongoDB succesfully connected');
+  } else {
+    console.log('ERROR connecting to MongoDB');
+    console.log(err); 
+  }
+})
+const compiler = webpack(config);
 
 app.use(require('webpack-dev-middleware')(compiler, {
   noInfo: true,
